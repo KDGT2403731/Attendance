@@ -81,13 +81,13 @@ public class AttendanceServlet extends HttpServlet {
 				monthlyOvertimeHours = attendanceDAO.getMonthlyOvertimeHours(filterUserId);
 				monthlyWorkingHours = attendanceDAO.getMonthlyWorkingHours(filterUserId);
 				monthlyCheckInCounts = attendanceDAO.getMonthlyCheckInCounts(filterUserId);
-				totalHoursByUser = attendanceDAO.getTotalHoursByUser(filterUserId, startDate, endDate);
+				totalHoursByUser = attendanceDAO.getTotalHoursByUserWithBreak(filterUserId, startDate, endDate);
 			} else {
 				filteredRecords = attendanceDAO.findAll();
 				monthlyOvertimeHours = attendanceDAO.getMonthlyOvertimeHours(null);
 				monthlyWorkingHours = attendanceDAO.getMonthlyWorkingHours(null);
 				monthlyCheckInCounts = attendanceDAO.getMonthlyCheckInCounts(null);
-				totalHoursByUser = attendanceDAO.getTotalHoursByUser(null, null, null);
+				totalHoursByUser = attendanceDAO.getTotalHoursByUserWithBreak(null, null, null);
 			}
 			
 			req.setAttribute("allAttendanceRecords", filteredRecords);
