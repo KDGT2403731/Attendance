@@ -1,5 +1,6 @@
 package com.example.attendance.dao;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -57,6 +58,19 @@ public class AttendanceDAO {
 						Collectors.summingLong(att -> ChronoUnit.HOURS.between(att.getCheckInTime(), 
 									att.getCheckOutTime()))
 				));
+	}
+	
+	public long getWorkingHoursWithBreak(String userId, LocalDateTime checkInTime, LocalDateTime checkOutTime) {
+		if (checkInTime == null || checkOutTime == null) {
+			return 0;
+		}
+		Duration duration = Duration.between(checkInTime, checkOutTime);
+		long totalMinutes = duration.toMinutes();
+		long workingMinutes = totalMinutes - 60;
+		if (workingMinutes < 0) {
+			return 0;
+		}
+		return workingMinutes / 60;
 	}
 	
 	public Map<YearMonth, Long> getMonthlyCheckInCounts(String userId) {
@@ -139,8 +153,14 @@ public class AttendanceDAO {
 	    		.filter(att -> att.getCheckInTime() != null && att.getCheckOutTime() != null)
 	    		.collect(Collectors.groupingBy(
 	    				Attendance::getUserId,
-	    				Collectors.summingLong(att -> 
-	    				ChronoUnit.HOURS.between(att.getCheckInTime(), att.getCheckOutTime()))
+	    				Collectors.summingLong(att -> {
+	    					long totalMinutes = ChronoUnit.MINUTES.between(att.getCheckInTime(), att.getCheckOutTime());
+	    					long workingMinutes = totalMinutes - 60;
+	    					if (workingMinutes < 0) {
+	    						return 0L;
+	    					}
+	    					return workingMinutes / 60;
+	    				})
 	    		));
 	}
 }
