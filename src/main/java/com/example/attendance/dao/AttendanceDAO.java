@@ -76,8 +76,19 @@ public class AttendanceDAO {
 				.collect(Collectors.groupingBy(
 						att -> YearMonth.from(att.getCheckInTime()),
 						Collectors.summingLong(att -> {
-							long hours = ChronoUnit.HOURS.between(att.getCheckInTime(), att.getCheckOutTime());
-							return Math.max(0, hours -8);
+							LocalDateTime checkIn = att.getCheckInTime();
+							LocalDateTime checkOut = att.getCheckOutTime();
+							
+							LocalDateTime workStart = checkIn.withHour(9).withMinute(0).withSecond(0).withNano(0);
+							LocalDateTime workEnd = checkOut.withHour(17).withMinute(0).withSecond(0).withNano(0);
+							long regularHours = 0;
+							if (checkIn.isBefore(workEnd) && checkOut.isAfter(workStart)) {
+								LocalDateTime start = checkIn.isAfter(workStart) ? checkIn : workStart;
+								LocalDateTime end = checkOut.isBefore(workEnd) ? checkOut : workEnd;
+								regularHours = ChronoUnit.HOURS.between(start, end);
+							}
+							long totalHours = ChronoUnit.HOURS.between(checkIn, checkOut);
+							return Math.max(0, totalHours - regularHours);
 						})
 					));
 	}
