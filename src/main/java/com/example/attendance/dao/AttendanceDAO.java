@@ -78,7 +78,6 @@ public class AttendanceDAO {
 						Collectors.summingLong(att -> {
 							LocalDateTime checkIn = att.getCheckInTime();
 							LocalDateTime checkOut = att.getCheckOutTime();
-							
 							LocalDateTime workStart = checkIn.withHour(9).withMinute(0).withSecond(0).withNano(0);
 							LocalDateTime workEnd = checkOut.withHour(17).withMinute(0).withSecond(0).withNano(0);
 							long regularHours = 0;
