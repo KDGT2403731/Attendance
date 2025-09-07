@@ -81,7 +81,8 @@
 		<h4>月別合計労働時間</h4>
 		<pre>
 		<c:if test="${not empty monthlyWorkingHours}">
-		<c:forEach var="entry" items="${monthlyWorkingHours}">${entry.key}: <c:forEach begin="1" end="${entry.value / 5}">*</c:forEach> ${entry.value}時間
+		<c:forEach var="entry" items="${monthlyWorkingHours}">
+			${entry.key}: <c:forEach begin="1" end="${entry.value > 0 ? entry.value / 5 : 0}">*</c:forEach> ${entry.value}時間
 		</c:forEach>
 		</c:if>
 		<c:if test="${empty monthlyWorkingHours}">データがありません。</c:if>

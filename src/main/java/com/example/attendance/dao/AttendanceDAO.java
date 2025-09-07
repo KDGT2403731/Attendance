@@ -54,8 +54,14 @@ public class AttendanceDAO {
 				.filter(att -> att.getCheckInTime() != null && att.getCheckOutTime() != null)
 				.collect(Collectors.groupingBy(
 						att -> YearMonth.from(att.getCheckInTime()),
-						Collectors.summingLong(att -> ChronoUnit.HOURS.between(att.getCheckInTime(), 
-									att.getCheckOutTime()))
+						Collectors.summingLong(att -> {
+							if (att.getCheckInTime() == null || att.getCheckOutTime() == null) {
+								return 0L;
+							}
+							long totalMinutes = ChronoUnit.MINUTES.between(att.getCheckInTime(), att.getCheckOutTime());
+							long workingMinutes = totalMinutes - 60;
+							return workingMinutes > 0 ? workingMinutes / 60 : 0L;
+						})
 				));
 	}
 	
