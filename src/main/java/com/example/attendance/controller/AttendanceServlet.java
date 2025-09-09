@@ -138,7 +138,7 @@ public class AttendanceServlet extends HttpServlet {
 			try {
 				if (userId == null || userId.isEmpty() || checkInStr == null || checkInStr.isEmpty()) {
 					session.setAttribute("errorMessage", "ユーザーIDと出勤時刻は必須です。");
-				} else if (userDAO.findByUsername(userId) == null) {
+				} else {
 					if (userDAO.findByUsername(userId) == null) {
 						session.setAttribute("errorMessage", "指定されたユーザーIDは存在しません。");
 					} else {

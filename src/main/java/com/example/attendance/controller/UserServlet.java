@@ -106,6 +106,7 @@ public class UserServlet extends HttpServlet {
 			session.setAttribute("successMessage", username + "のアカウントを" +
 			(enabled ? "有効" : "無効") + "にしました。");
 		}
+		session.setAttribute("allUsers", userDAO.getAllUsers());
 		resp.sendRedirect("users?action=list");
 	}
 }
