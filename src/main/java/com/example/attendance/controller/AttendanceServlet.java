@@ -39,7 +39,7 @@ public class AttendanceServlet extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		
 		if (user == null) {
-			resp.sendRedirect("login.jsp");
+			resp.sendRedirect(req.getContextPath() + "login.jsp");
 			return;
 		}
 		
