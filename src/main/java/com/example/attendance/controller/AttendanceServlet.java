@@ -24,6 +24,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 import com.example.attendance.dao.AttendanceDAO;
+import com.example.attendance.dao.UserDAO;
 import com.example.attendance.dto.Attendance;
 import com.example.attendance.dto.User;
 
@@ -31,6 +32,7 @@ import com.example.attendance.dto.User;
 @MultipartConfig
 public class AttendanceServlet extends HttpServlet {
 	private final AttendanceDAO attendanceDAO = new AttendanceDAO();
+	private final UserDAO userDAO = new UserDAO();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -136,6 +138,8 @@ public class AttendanceServlet extends HttpServlet {
 			try {
 				if (userId == null || userId.isEmpty() || checkInStr == null || checkInStr.isEmpty()) {
 					session.setAttribute("errorMessage", "ユーザーIDと出勤時刻は必須です。");
+				} else if (userDAO.findByUsername(userId) == null) {
+					session.setAttribute("errorMessage", "指定されたユーザーIDは存在しません。");
 				} else {
 					LocalDateTime checkIn = LocalDateTime.parse(checkInStr);
 					LocalDateTime checkOut = checkOutStr != null && !checkOutStr.isEmpty() ?
