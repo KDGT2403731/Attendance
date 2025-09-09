@@ -8,5 +8,5 @@
 
 ```text
 src/
-∟-main/
+∟—main/
 ```
