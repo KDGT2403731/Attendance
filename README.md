@@ -8,5 +8,30 @@
 
 ```text
 src/
-∟—main/
+└── main/
+    └── java/
+        └── com/
+            └── example/
+                └── attendance/
+                    ├── controller/
+                    │ 　├── AttendanceServlet.java
+                    │ 　├── LoginServlet.java
+　　　　　　　　　　　　│ 　├── LogoutServlet.java
+　　　　　　　　　　　　│ 　└── UserServlet.java
+　　　　　　　　　　　　├── dao/
+　　　　　　　　　　　　│ 　├── AttendanceDAO.java
+　　　　　　　　　　　　│ 　└── UserDAO.java
+　　　　　　　　　　　　├── dto/
+　　　　　　　　　　　　│　 ├── Attendance.java
+　　　　　　　　　　　　│　 └── User.java
+　　　　　　　　　　　　└── filter/
+　　　　　　　　　　　　　　└── AuthenticationFilter.java
+webapp/
+├── login.jsp
+├── style.css
+└── jsp/
+　　├── admin_menu.jsp
+　　├── employee_menu.jsp
+　　├── error.jsp
+　　└── user_management.jsp
 ```
