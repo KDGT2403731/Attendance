@@ -7,6 +7,24 @@
 <meta charset="UTF-8">
 <title>管理者メニュー</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const userIdInput = document.getElementById('manualUserId');
+		const errorMessage = document.getElementById('userIdError');
+		const existingUsers = new Set();
+		<c:forEach var="user" items="${users}">
+			existingUsers.add("<c:out value='${user.username}' />");
+		</c:forEach>
+		userIdInput.addEventListener('input', function() {
+			const userId = this.value;
+			if (existingUsers.has(userId)) {
+				errorMessage.style.display = 'none';
+			} else {
+				errorMessage.style.display = 'block';
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="container">
@@ -164,6 +182,7 @@
 			<p>
 				<label for="manualUserId">ユーザーID:</label>
 				<input type="text" id="manualUserId" name="userId" required>
+				<span id="userIdError" style="color: red; display: none;">指定されたユーザーIDは存在しません。</span>
 			</p>
 			<p>
 				<label for="manualCheckInTime">出勤時刻:</label>

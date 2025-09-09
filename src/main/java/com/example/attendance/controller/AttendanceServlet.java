@@ -133,20 +133,23 @@ public class AttendanceServlet extends HttpServlet {
 			String userId = req.getParameter("userId");
 			String checkInStr = req.getParameter("checkInTime");
 			String checkOutStr = req.getParameter("checkOutTime");
-			
+			User userToAddAttendance = UserDAO.findByUsername(userId);
+			if (userToAddAttendance == null) {
+				req.setAttribute("errorMessage", "指定されたユーザーIDは存在しません。");
+				req.setAttribute("allAttendanceRecords", attendanceDAO.findAll());
+				req.setAttribute("users", UserDAO.getAllUsers());
+				req.getRequestDispatcher("/jsp/admin_menu.jsp").forward(req, resp);
+				return;
+			}
 			try {
-				if (userId == null || userId.isEmpty() || checkInStr == null || checkInStr.isEmpty()) {
-					session.setAttribute("errorMessage", "ユーザーIDと出勤時刻は必須です。");
+				if (checkInStr == null || checkInStr.isEmpty()) {
+					req.setAttribute("errorMessage", "出勤時刻は必須です。");
 				} else {
-					if (UserDAO.findByUsername(userId) == null) {
-						session.setAttribute("errorMessage", "指定されたユーザーIDは存在しません。");
-					} else {
-						LocalDateTime checkIn = LocalDateTime.parse(checkInStr);
-						LocalDateTime checkOut = checkOutStr != null && !checkOutStr.isEmpty() ?
-						LocalDateTime.parse(checkOutStr) : null;
-						attendanceDAO.addManualAttendance(userId, checkIn, checkOut);
-						session.setAttribute("successMessage", "勤怠記録を手動で追加しました。");
-					}
+					LocalDateTime checkIn = LocalDateTime.parse(checkInStr);
+					LocalDateTime checkOut = checkOutStr != null && !checkOutStr.isEmpty() ?
+					LocalDateTime.parse(checkOutStr) : null;
+					attendanceDAO.addManualAttendance(userId, checkIn, checkOut);
+					session.setAttribute("successMessage", "勤怠記録を手動で追加しました。");
 				}
 			} catch (DateTimeParseException e) {
 				session.setAttribute("errorMessage", "日付/時刻の形式が不正です。正しい形式で入力してください。");
@@ -176,6 +179,9 @@ public class AttendanceServlet extends HttpServlet {
 				session.setAttribute("errorMessage", "日付/時刻の形式が不正です。正しい形式で入力してください。");
 				e.printStackTrace();
 			}
+			req.setAttribute("allAttendanceRecords", attendanceDAO.findAll());
+	        req.setAttribute("users", UserDAO.getAllUsers());
+	        req.getRequestDispatcher("/jsp/admin_menu.jsp").forward(req, resp);
 		} else if ("delete_manual".equals(action) && "admin".equals(user.getRole())) {
 			String userId = req.getParameter("userId");
 			String checkInStr = req.getParameter("checkInTime");
