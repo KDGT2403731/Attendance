@@ -18,15 +18,14 @@ import com.example.attendance.dto.User;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-	private final UserDAO userDAO = new UserDAO();
 	private final AttendanceDAO attendanceDAO = new AttendanceDAO();
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		User user = userDAO.findByUsername(username);
-		if (user != null && user.isEnabled() && userDAO.verifyPassword(username, password)) {
+		User user = UserDAO.findByUsername(username);
+		if (user != null && user.isEnabled() && UserDAO.verifyPassword(username, password)) {
 			HttpSession session = req.getSession();
 			session.setAttribute("user", user);
 			session.setAttribute("successMessage", "ログインしました。");
