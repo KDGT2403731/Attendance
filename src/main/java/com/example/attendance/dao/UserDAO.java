@@ -3,13 +3,13 @@ package com.example.attendance.dao;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.example.attendance.dto.User;
 
 public class UserDAO {
-	private static final Map<String, User> users = new HashMap<>();
+	private static final Map<String, User> users = new ConcurrentHashMap<>();
 	
 	static {
 		users.put("employee1", new User("employee1", hashPassword("password"), "employee", true));

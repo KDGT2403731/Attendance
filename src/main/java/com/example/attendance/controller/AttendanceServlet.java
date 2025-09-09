@@ -139,13 +139,15 @@ public class AttendanceServlet extends HttpServlet {
 				if (userId == null || userId.isEmpty() || checkInStr == null || checkInStr.isEmpty()) {
 					session.setAttribute("errorMessage", "ユーザーIDと出勤時刻は必須です。");
 				} else if (userDAO.findByUsername(userId) == null) {
-					session.setAttribute("errorMessage", "指定されたユーザーIDは存在しません。");
-				} else {
-					LocalDateTime checkIn = LocalDateTime.parse(checkInStr);
-					LocalDateTime checkOut = checkOutStr != null && !checkOutStr.isEmpty() ?
-					LocalDateTime.parse(checkOutStr) : null;
-					attendanceDAO.addManualAttendance(userId, checkIn, checkOut);
-					session.setAttribute("successMessage", "勤怠記録を手動で追加しました。");
+					if (userDAO.findByUsername(userId) == null) {
+						session.setAttribute("errorMessage", "指定されたユーザーIDは存在しません。");
+					} else {
+						LocalDateTime checkIn = LocalDateTime.parse(checkInStr);
+						LocalDateTime checkOut = checkOutStr != null && !checkOutStr.isEmpty() ?
+						LocalDateTime.parse(checkOutStr) : null;
+						attendanceDAO.addManualAttendance(userId, checkIn, checkOut);
+						session.setAttribute("successMessage", "勤怠記録を手動で追加しました。");
+					}
 				}
 			} catch (DateTimeParseException e) {
 				session.setAttribute("errorMessage", "日付/時刻の形式が不正です。正しい形式で入力してください。");
