@@ -18,32 +18,32 @@ public class UserDAO {
 		users.put("yuya", new User("yuya", hashPassword("yuya0616"), "admin", true));
 	}
 	
-	public User findByUsername(String username) {
+	public static User findByUsername(String username) {
 		return users.get(username);
 	}
 	
-	public boolean verifyPassword(String username, String password) {
+	public static boolean verifyPassword(String username, String password) {
 		User user = findByUsername(username);
 		return user != null && user.isEnabled() && user.getPassword().equals(hashPassword(password));
 	}
 	
-	public Collection<User> getAllUsers() {
+	public static Collection<User> getAllUsers() {
 		return users.values();
 	}
 	
-	public void addUser(User user) {
+	public static void addUser(User user) {
 		users.put(user.getUsername(), user);
 	}
 	
-	public void updateUser(User user) {
+	public static void updateUser(User user) {
 		users.put(user.getUsername(), user);
 	}
 	
-	public void deleteUser(String username) {
+	public static void deleteUser(String username) {
 		users.remove(username);
 	}
 	
-	public void resetPassword(String username, String newPassword) {
+	public static void resetPassword(String username, String newPassword) {
 		User user = users.get(username);
 		if (user != null) {
 			users.put(username, new User(user.getUsername(), hashPassword(newPassword), user.getRole(),
@@ -51,7 +51,7 @@ public class UserDAO {
 		}
 	}
 	
-	public void toggleUserEnabled(String username, boolean enabled) {
+	public static void toggleUserEnabled(String username, boolean enabled) {
 		User user = users.get(username);
 		if (user != null) {
 			users.put(username, new User(user.getUsername(), user.getPassword(), user.getRole(), enabled));

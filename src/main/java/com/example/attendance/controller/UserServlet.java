@@ -16,7 +16,6 @@ import com.example.attendance.dto.User;
 
 @WebServlet("/users")
 public class UserServlet extends HttpServlet {
-	private final UserDAO userDAO = new UserDAO();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,15 +39,15 @@ public class UserServlet extends HttpServlet {
 			session.removeAttribute("successMessage");
 		}
 		if ("list".equals(action) || action == null) {
-			Collection<User> users = userDAO.getAllUsers();
+			Collection<User> users = UserDAO.getAllUsers();
 			req.setAttribute("users", users);
 			RequestDispatcher rd = req.getRequestDispatcher("/jsp/user_management.jsp");
 			rd.forward(req, resp);
 		} else if ("edit".equals(action)) {
 			String username = req.getParameter("username");
-			User user = userDAO.findByUsername(username);
+			User user = UserDAO.findByUsername(username);
 			req.setAttribute("userToEdit", user);
-			Collection<User> users = userDAO.getAllUsers();
+			Collection<User> users = UserDAO.getAllUsers();
 			req.setAttribute("users", users);
 			RequestDispatcher rd = req.getRequestDispatcher("/jsp/user_management.jsp");
 			rd.forward(req, resp);
@@ -73,8 +72,8 @@ public class UserServlet extends HttpServlet {
 			String username = req.getParameter("username");
 			String password = req.getParameter("password");
 			String role = req.getParameter("role");
-			if (userDAO.findByUsername(username) == null) {
-				userDAO.addUser(new User(username, UserDAO.hashPassword(password), role));
+			if (UserDAO.findByUsername(username) == null) {
+				UserDAO.addUser(new User(username, UserDAO.hashPassword(password), role));
 				session.setAttribute("successMessage", "ユーザーを追加しました");
 			} else {
 				req.setAttribute("errorMessage", "ユーザーIDはすでに存在します。");
@@ -84,29 +83,29 @@ public class UserServlet extends HttpServlet {
 			String role = req.getParameter("role");
 			boolean enabled = req.getParameter("enabled") != null;
 			
-			User existingUser = userDAO.findByUsername(username);
+			User existingUser = UserDAO.findByUsername(username);
 			if (existingUser != null) {
-				userDAO.updateUser(new User(username, existingUser.getPassword(), role, enabled));
+				UserDAO.updateUser(new User(username, existingUser.getPassword(), role, enabled));
 				session.setAttribute("successMessage", "ユーザー情報を更新しました。");
 			}
 		} else if ("delete".equals(action)) {
 			String username = req.getParameter("username");
-			userDAO.deleteUser(username);
+			UserDAO.deleteUser(username);
 			session.setAttribute("successMessage", "ユーザーを削除しました。");
 		} else if ("reset_password".equals(action)) {
 			String username = req.getParameter("username");
 			String newPassword = req.getParameter("newPassword");
-			userDAO.resetPassword(username, newPassword);
+			UserDAO.resetPassword(username, newPassword);
 			session.setAttribute("successMessage", username + "のパスワードをリセットしました。 (デフォルトパスワード: "
 					+ newPassword + ")");
 		} else if ("toggle_enabled".equals(action)) {
 			String username = req.getParameter("username");
 			boolean enabled = Boolean.parseBoolean(req.getParameter("enabled"));
-			userDAO.toggleUserEnabled(username, enabled);
+			UserDAO.toggleUserEnabled(username, enabled);
 			session.setAttribute("successMessage", username + "のアカウントを" +
 			(enabled ? "有効" : "無効") + "にしました。");
 		}
-		session.setAttribute("allUsers", userDAO.getAllUsers());
+		session.setAttribute("allUsers", UserDAO.getAllUsers());
 		resp.sendRedirect("users?action=list");
 	}
 }

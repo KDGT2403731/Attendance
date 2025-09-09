@@ -32,7 +32,6 @@ import com.example.attendance.dto.User;
 @MultipartConfig
 public class AttendanceServlet extends HttpServlet {
 	private final AttendanceDAO attendanceDAO = new AttendanceDAO();
-	private final UserDAO userDAO = new UserDAO();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -139,7 +138,7 @@ public class AttendanceServlet extends HttpServlet {
 				if (userId == null || userId.isEmpty() || checkInStr == null || checkInStr.isEmpty()) {
 					session.setAttribute("errorMessage", "ユーザーIDと出勤時刻は必須です。");
 				} else {
-					if (userDAO.findByUsername(userId) == null) {
+					if (UserDAO.findByUsername(userId) == null) {
 						session.setAttribute("errorMessage", "指定されたユーザーIDは存在しません。");
 					} else {
 						LocalDateTime checkIn = LocalDateTime.parse(checkInStr);
