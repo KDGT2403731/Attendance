@@ -91,7 +91,7 @@
 		<h4>月別出勤日数</h4>
 		<pre>
 		<c:forEach var="entry" items="${monthlyCheckInCounts}">
-		${entry.key}: <c:forEach begin="1" end="${entry.value}">■</c:forEach> ${entry.value}日
+			${entry.key}: <c:forEach begin="1" end="${entry.value}">■</c:forEach> ${entry.value}日
 		</c:forEach>
 		<c:if test="${empty monthlyCheckInCounts}">データがありません。</c:if>
 		</pre>
