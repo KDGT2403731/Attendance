@@ -20,7 +20,7 @@ Jakarta Servlet (Servlet 5) + JSP をベースに、Eclipse での学習や演�
 
 ---
 
-## プロジェクト構成
+## ディレクトリ構成
 
 > 代表的な構成
 
