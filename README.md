@@ -26,30 +26,32 @@ Jakarta Servlet (Servlet 5) + JSP をベースに、Eclipse での学習や演�
 
 ```text
 src/
-└── main/
-    └── java/
-        └── com/
-            └── example/
-                └── attendance/
-                    ├── controller/
-                    │ 　├── AttendanceServlet.java
-                    │ 　├── LoginServlet.java
-　　　　　　　　　　　　│ 　├── LogoutServlet.java
-　　　　　　　　　　　　│ 　└── UserServlet.java
-　　　　　　　　　　　　├── dao/
-　　　　　　　　　　　　│ 　├── AttendanceDAO.java
-　　　　　　　　　　　　│ 　└── UserDAO.java
-　　　　　　　　　　　　├── dto/
-　　　　　　　　　　　　│　 ├── Attendance.java
-　　　　　　　　　　　　│　 └── User.java
-　　　　　　　　　　　　└── filter/
-　　　　　　　　　　　　　　└── AuthenticationFilter.java
-webapp/
-├── login.jsp
-├── style.css
-└── jsp/
-　　├── admin_menu.jsp
-　　├── employee_menu.jsp
-　　├── error.jsp
-　　└── user_management.jsp
+└─ main
+   ├─ java/
+   │  └─ com/example/attendance/
+   │     ├─ entity/
+   │     │  ├─ User.java
+   │     │  └─ Attendance.java
+   │     ├─ dao/
+   │     │  ├─ UserDAO.java
+   │     │  └─ AttendanceDAO.java
+   │     ├─ servlet/
+   │     │  ├─ LoginServlet.java
+   │     │  ├─ AttendanceServlet.java
+   │     │  └─ AdminServlet.java
+   │     ├─ filter/
+   │     │  └─ AuthenticationFilter.java
+   │     └─ util/
+   │        └─ DB.java            // DataSource/接続ユーティリティ想定
+   └─ webapp/
+      ├─ WEB-INF/
+      │  ├─ web.xml
+      │  └─ views/                // JSP
+      │     ├─ login.jsp
+      │     ├─ menu_employee.jsp
+      │     ├─ menu_admin.jsp
+      │     ├─ attendance_list.jsp
+      │     └─ attendance_history.jsp
+      ├─ style.css
+      └─ index.jsp
 ```
