@@ -161,9 +161,9 @@ public class AttendanceServlet extends HttpServlet {
 		} else if ("update_manual".equals(action) && "admin".equals(user.getRole())) {
 			String userId = req.getParameter("userId");
 			String oldCheckInStr = req.getParameter("oldCheckInTime");
-	        String oldCheckOutStr = req.getParameter("oldCheckOutTime");
-	        String newCheckInStr = req.getParameter("newCheckInTime");
-	        String newCheckOutStr = req.getParameter("newCheckOutTime");
+			String oldCheckOutStr = req.getParameter("oldCheckOutTime");
+			String newCheckInStr = req.getParameter("newCheckInTime");
+			String newCheckOutStr = req.getParameter("newCheckOutTime");
 			try {
 				LocalDateTime oldCheckIn = parseDateTimeRelaxed(oldCheckInStr);
 				LocalDateTime oldCheckOut = parseDateTimeRelaxed(oldCheckOutStr);
@@ -180,8 +180,8 @@ public class AttendanceServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			req.setAttribute("allAttendanceRecords", attendanceDAO.findAll());
-	        req.setAttribute("users", UserDAO.getAllUsers());
-	        req.getRequestDispatcher("/jsp/admin_menu.jsp").forward(req, resp);
+			req.setAttribute("users", UserDAO.getAllUsers());
+			req.getRequestDispatcher("/jsp/admin_menu.jsp").forward(req, resp);
 		} else if ("delete_manual".equals(action) && "admin".equals(user.getRole())) {
 			String userId = req.getParameter("userId");
 			String checkInStr = req.getParameter("checkInTime");
