@@ -280,7 +280,7 @@ public class AttendanceServlet extends HttpServlet {
 								String.format("CSVファイルの%d行目でデータのインポート中に予期せぬエラーが発生しました。: %s", 
 								lineCount, e.getMessage()));
 						e.printStackTrace();
-                        return;
+						return;
 					}
 				}
 				req.setAttribute("successMessage", "CSVファイルのインポートが完了しました。");
