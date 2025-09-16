@@ -133,6 +133,7 @@ public class AttendanceServlet extends HttpServlet {
 			String userId = req.getParameter("userId");
 			String checkInStr = req.getParameter("checkInTime");
 			String checkOutStr = req.getParameter("checkOutTime");
+			
 			User userToAddAttendance = UserDAO.findByUsername(userId);
 			if (userToAddAttendance == null) {
 				req.setAttribute("errorMessage", "指定されたユーザーIDは存在しません。");
