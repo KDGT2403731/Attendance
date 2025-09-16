@@ -152,11 +152,17 @@ public class AttendanceServlet extends HttpServlet {
 					session.setAttribute("successMessage", "勤怠記録を手動で追加しました。");
 				}
 			} catch (DateTimeParseException e) {
-				session.setAttribute("errorMessage", "日付/時刻の形式が不正です。正しい形式で入力してください。");
-				e.printStackTrace();
+				req.setAttribute("errorMessage", "日付/時刻の形式が不正です。正しい形式で入力してください。");
+				req.setAttribute("allAttendanceRecords", attendanceDAO.findAll());
+				req.setAttribute("users", UserDAO.getAllUsers());
+				req.getRequestDispatcher("/jsp/admin_menu.jsp").forward(req, resp);
+				return;
 			} catch (Exception e) {
-				session.setAttribute("errorMessage", "勤怠記録の追加中に予期せぬエラーが発生しました。");
-				e.printStackTrace();
+				req.setAttribute("errorMessage", "勤怠記録の追加中に予期せぬエラーが発生しました。");
+				req.setAttribute("allAttendanceRecords", attendanceDAO.findAll());
+				req.setAttribute("users", UserDAO.getAllUsers());
+				req.getRequestDispatcher("/jsp/admin_menu.jsp").forward(req, resp);
+				return;
 			}
 		} else if ("update_manual".equals(action) && "admin".equals(user.getRole())) {
 			String userId = req.getParameter("userId");
