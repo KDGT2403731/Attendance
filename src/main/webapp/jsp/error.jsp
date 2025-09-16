@@ -11,7 +11,13 @@ isErrorPage="true" %>
 <body>
 	<h1>エラーが発生しました</h1>
 	<p>申し訳ありませんが、処理中にエラーが発生しました。</p>
-	<p>エラーメッセージ: <%= exception.getMessage() %></p>
+	<p>エラーメッセージ:
+	<% if (exception != null) { %>
+			<%= exception.getMessage() %>
+	<% } else { %>
+			不明なエラーが発生しました。
+	<% } %>
+	</p>
 	<a href="../login.jsp">ログインページに戻る</a>
 </body>
 </html>
