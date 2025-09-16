@@ -6,6 +6,7 @@ isErrorPage="true" %>
 <head>
 <meta charset="UTF-8">
 <title>エラー</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
 </head>
 <body>
 	<h1>エラーが発生しました</h1>
