@@ -50,12 +50,12 @@ public class LoginServlet extends HttpServlet {
 											}
 											return 0L;
 										}))));
-				req.setAttribute("monthlyTotalHoursByUser", monthlyTotalHoursByUser);
+				req.setAttribute("monthlyWorkingHours", monthlyTotalHoursByUser);
 				Map<String, Map<java.time.YearMonth, Long>> monthlyAttendanceDaysByUser = attendanceDAO.findAll().stream()
 						.collect(Collectors.groupingBy(com.example.attendance.dto.Attendance::getUserId,
 								Collectors.groupingBy(att -> java.time.YearMonth.from(att.getCheckInTime()),
 										Collectors.counting())));
-				req.setAttribute("monthlyAttendanceDaysByUser", monthlyAttendanceDaysByUser);
+				req.setAttribute("monthlyCheckInCounts", monthlyAttendanceDaysByUser);
 				RequestDispatcher rd = req.getRequestDispatcher("/jsp/admin_menu.jsp");
 				rd.forward(req, resp);
 			} else {
