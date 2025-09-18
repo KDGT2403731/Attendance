@@ -24,7 +24,7 @@ public class UserServlet extends HttpServlet {
 		User currentUser = (User) session.getAttribute("user");
 		
 		if (session == null || session.getAttribute("user") == null) {
-			resp.sendRedirect("login.jsp");
+			resp.sendRedirect(req.getContextPath() + "login.jsp");
 			return;
 		}
 		
